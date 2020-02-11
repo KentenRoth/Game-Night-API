@@ -30,6 +30,14 @@ const UserSchema = new Schema({
 		trim: true,
 		minlength: 2,
 		maxlength: 15
+	},
+	wins: {
+		type: Number,
+		default: 0
+	},
+	eliminations: {
+		type: Number,
+		default: 0
 	}
 });
 
