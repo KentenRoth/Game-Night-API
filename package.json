@@ -1,0 +1,32 @@
+{
+	"name": "game-night-api",
+	"version": "1.0.0",
+	"description": "This is the server for my game night project.",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "node index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/KentenRoth/Game-Night-API.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/KentenRoth/Game-Night-API/issues"
+	},
+	"homepage": "https://github.com/KentenRoth/Game-Night-API#readme",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"express": "^4.17.1",
+		"jsonwebtoken": "^8.5.1",
+		"mongodb": "^3.5.2",
+		"mongoose": "^5.8.11",
+		"validator": "^12.2.0"
+	},
+	"devDependencies": {
+		"env-cmd": "^10.1.0"
+	}
+}
