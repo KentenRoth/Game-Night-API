@@ -13,10 +13,12 @@ const InGameUserSchema = new Schema({
 		type: [String]
 	},
 	money: {
-		type: Number
+		type: Number,
+		required: true
 	},
 	netWorth: {
-		type: Number
+		type: Number,
+		required: true
 	}
 });
 
