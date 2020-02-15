@@ -39,6 +39,15 @@ const UserSchema = new Schema({
 	eliminations: {
 		type: Number,
 		default: 0
+	},
+	currentGames: {
+		type: [],
+		gameName: {
+			type: String
+		},
+		gameToken: {
+			type: String
+		}
 	}
 });
 
