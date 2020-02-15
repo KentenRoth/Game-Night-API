@@ -37,14 +37,23 @@ router.get('/inGameUser/:id', async (req, res) => {
 
 router.patch('/inGameUser/:id', async (req, res) => {
 	const updates = Object.keys(req.body);
-	const allowedUpdates = ['name', 'property', 'money', 'netWorth'];
-	const isValidUpdate = updates.every(update => {
-		allowedUpdates.includes(update);
-	});
+	const allowedUpdates = [
+		'name',
+		'property',
+		'propertyName',
+		'propertyBuildings',
+		'ownsAllProperty',
+		'money',
+		'netWorth'
+	];
+	const isValidUpdate = updates.every(update =>
+		allowedUpdates.includes(update)
+	);
+
 	const _id = req.params.id;
 
 	if (!isValidUpdate) {
-		return res.status(400).send({ error: 'Update Failed' });
+		return res.status(400).send({ error: 'Invalid Update' });
 	}
 
 	try {
