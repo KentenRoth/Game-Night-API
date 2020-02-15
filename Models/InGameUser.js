@@ -19,9 +19,9 @@ const InGameUserSchema = new Schema({
 			type: Number,
 			required: true
 		},
-		numberOfSetOwned: {
-			type: Number,
-			required: true
+		ownsAllProperty: {
+			type: Boolean,
+			default: false
 		}
 	},
 	money: {
