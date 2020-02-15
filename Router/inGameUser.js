@@ -61,4 +61,20 @@ router.patch('/inGameUser/:id', async (req, res) => {
 	}
 });
 
+router.delete('/inGameUser/:id', async (res, req) => {
+	const _id = req.params.id;
+
+	try {
+		const inGameUser = await InGameUser.findByIdAndDelete({ _id });
+
+		if (!inGameUser) {
+			res.status(404).send();
+		}
+
+		res.status(200).send(inGameUser);
+	} catch (error) {
+		res.status(500).send(error);
+	}
+});
+
 module.exports = router;
