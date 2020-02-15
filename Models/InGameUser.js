@@ -10,7 +10,19 @@ const InGameUserSchema = new Schema({
 		maxlength: 15
 	},
 	property: {
-		type: [String]
+		type: [],
+		propertyName: {
+			type: String,
+			required: true
+		},
+		propertyBuildings: {
+			type: Number,
+			required: true
+		},
+		numberOfSetOwned: {
+			type: Number,
+			required: true
+		}
 	},
 	money: {
 		type: Number,
