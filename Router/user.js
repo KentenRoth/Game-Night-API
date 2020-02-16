@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../Models/User');
 
 router.post('/user', async (req, res) => {
+	const user = new User(req.body);
 	try {
 		await user.save();
 		res.status(201).send(user);
@@ -12,12 +13,12 @@ router.post('/user', async (req, res) => {
 });
 
 router.get('/user/:id', async (req, res) => {
-	const _id = req.params._id;
+	const _id = req.params.id;
 
 	try {
 		const user = await User.findById({ _id });
 		if (!user) {
-			res.status(500).send();
+			res.status(500).send({ error: 'Could not find user' });
 		}
 		res.send(user);
 	} catch (error) {
@@ -26,6 +27,7 @@ router.get('/user/:id', async (req, res) => {
 });
 
 router.patch('/user/:id', async (req, res) => {
+	const _id = req.params.id;
 	const updates = Object.keys(req.body);
 	const allowedUpdates = [
 		'wins',
@@ -39,19 +41,21 @@ router.patch('/user/:id', async (req, res) => {
 	);
 
 	if (!isValidUpdate) {
-		return res.status(400).send({ error: 'Update failed' });
+		return res.status(400).send({ error: 'Cannot Update' });
 	}
 
 	try {
-		const user = await User.findByIdAndUpdate(_id, req.body, {
-			new: true,
-			runValidators: true
-		});
+		const user = await User.findById(_id);
+		updates.forEach(update => (user[update] = req.body[update]));
+		await user.save();
+
 		if (!user) {
 			res.status(404).send();
 		}
 		res.send(user);
-	} catch (error) {}
+	} catch (error) {
+		res.status(500).send();
+	}
 });
 
 module.exports = router;

@@ -16,4 +16,14 @@ const GameSchema = new Schema({
 	}
 });
 
+GameSchema.pre('save', async function(next) {
+	const game = this;
+
+	if (game.isModified('password')) {
+		game.password = await bcrypt.hash(game.password, 8);
+	}
+
+	next();
+});
+
 module.exports = Game = mongoose.model('Game', GameSchema);
