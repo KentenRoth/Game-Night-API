@@ -53,3 +53,5 @@ router.patch('/user/:id', async (req, res) => {
 		res.send(user);
 	} catch (error) {}
 });
+
+module.exports = router;
