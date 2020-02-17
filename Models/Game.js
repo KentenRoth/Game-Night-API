@@ -13,7 +13,15 @@ const GameSchema = new Schema({
 	password: {
 		type: String,
 		required: true
-	}
+	},
+	tokens: [
+		{
+			token: {
+				type: String,
+				required: true
+			}
+		}
+	]
 });
 
 GameSchema.pre('save', async function(next) {
@@ -25,5 +33,13 @@ GameSchema.pre('save', async function(next) {
 
 	next();
 });
+
+GameSchema.methods.toJSON = function() {
+	const game = this;
+	const gameObject = user.toObject();
+
+	delete gameObject.password;
+	delete gameObject.tokens;
+};
 
 module.exports = Game = mongoose.model('Game', GameSchema);
