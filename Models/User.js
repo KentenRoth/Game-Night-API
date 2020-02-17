@@ -49,7 +49,15 @@ const UserSchema = new Schema({
 		gameToken: {
 			type: String
 		}
-	}
+	},
+	tokens: [
+		{
+			token: {
+				type: String,
+				required: true
+			}
+		}
+	]
 });
 
 UserSchema.pre('save', async function(next) {
@@ -61,5 +69,15 @@ UserSchema.pre('save', async function(next) {
 
 	next();
 });
+
+UserSchema.methods.toJSON = function() {
+	const user = this;
+	const userObject = user.toObject();
+
+	delete userObject.password;
+	delete userObject.tokens;
+
+	return userObject;
+};
 
 module.exports = User = mongoose.model('User', UserSchema);
