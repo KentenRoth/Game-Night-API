@@ -59,7 +59,7 @@ GameSchema.methods.createAuthToken = async function() {
 	return token;
 };
 
-GameSchema.methods.findByCredentials = async (name, password) => {
+GameSchema.statics.findByCredentials = async (name, password) => {
 	const game = await Game.findOne({ name });
 
 	if (!game) {
