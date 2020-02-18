@@ -1,5 +1,6 @@
 const express = require('express');
 const router = new express.Router();
+const auth = require('../Middleware/gameAuth');
 const Game = require('../Models/Game');
 
 router.post('/game', async (req, res) => {
@@ -11,6 +12,20 @@ router.post('/game', async (req, res) => {
 		res.status(201).send({ game, authToken });
 	} catch (error) {
 		res.status(400).send(error);
+	}
+});
+
+router.post('/game/login', async (req, res) => {
+	try {
+		const game = await Game.findByCredentials(
+			req.body.name,
+			req.body.password
+		);
+
+		const authToken = await game.createAuthToken();
+		res.send({ game, authToken });
+	} catch (error) {
+		res.status(400).send(error.message);
 	}
 });
 
