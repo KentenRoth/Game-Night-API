@@ -2,12 +2,13 @@ const express = require('express');
 const router = new express.Router();
 const Game = require('../Models/Game');
 
-router.post('/game', async (res, req) => {
+router.post('/game', async (req, res) => {
 	const game = new Game(req.body);
 
 	try {
 		await game.save();
-		res.status(201).send(game);
+		const authToken = await game.createAuthToken();
+		res.status(201).send({ game, authToken });
 	} catch (error) {
 		res.status(400).send(error);
 	}

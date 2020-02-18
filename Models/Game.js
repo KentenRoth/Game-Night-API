@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
@@ -34,12 +36,29 @@ GameSchema.pre('save', async function(next) {
 	next();
 });
 
+GameSchema.methods.createAuthToken = async function() {
+	const game = this;
+	const token = jwt.sign(
+		{
+			_id: game._id.toString()
+		},
+		process.env.GAME_WEB_TOKEN
+	);
+
+	game.tokens = game.tokens.concat({ token });
+	await game.save();
+
+	return token;
+};
+
 GameSchema.methods.toJSON = function() {
 	const game = this;
-	const gameObject = user.toObject();
+	const gameObject = game.toObject();
 
 	delete gameObject.password;
 	delete gameObject.tokens;
+
+	return gameObject;
 };
 
 module.exports = Game = mongoose.model('Game', GameSchema);
