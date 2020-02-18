@@ -31,6 +31,12 @@ const InGameUserSchema = new Schema({
 	netWorth: {
 		type: Number,
 		required: true
+	},
+	pin: {
+		type: String,
+		required: true,
+		minlength: 4,
+		maxlength: 4
 	}
 });
 
