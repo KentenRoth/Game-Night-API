@@ -71,6 +71,22 @@ UserSchema.pre('save', async function(next) {
 	next();
 });
 
+UserSchema.methods.findByCredentials = async (email, password) => {
+	const user = await User.findOne({ email });
+
+	if (!user) {
+		throw new Error('Please check login information');
+	}
+
+	const isMatch = await bcrypt.compare(password, user.password);
+
+	if (!isMatch) {
+		throw new Error('Please check login information');
+	}
+
+	return user;
+};
+
 UserSchema.methods.createAuthToken = async function() {
 	const user = this;
 	const token = jwt.sign(

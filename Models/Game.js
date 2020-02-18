@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const InGameUser = require('./InGameUser');
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
@@ -36,6 +37,13 @@ GameSchema.pre('save', async function(next) {
 	next();
 });
 
+GameSchema.pre('remove', async function(next) {
+	const game = this;
+	await InGameUser.deleteMany({ owner: game._id });
+
+	next();
+});
+
 GameSchema.methods.createAuthToken = async function() {
 	const game = this;
 	const token = jwt.sign(
@@ -49,6 +57,21 @@ GameSchema.methods.createAuthToken = async function() {
 	await game.save();
 
 	return token;
+};
+
+GameSchema.methods.findByCredentials = async (name, password) => {
+	const game = await Game.findOne({ name });
+
+	if (!game) {
+		throw new Error('Could not find game');
+	}
+	const isMatch = await bcrypt.compare(password, game.passwrod);
+
+	if (!isMatch) {
+		throw new Error('Could not access game');
+	}
+
+	return game;
 };
 
 GameSchema.methods.toJSON = function() {
