@@ -65,7 +65,8 @@ GameSchema.statics.findByCredentials = async (name, password) => {
 	if (!game) {
 		throw new Error('Could not find game');
 	}
-	const isMatch = await bcrypt.compare(password, game.passwrod);
+
+	const isMatch = await bcrypt.compare(password, game.password);
 
 	if (!isMatch) {
 		throw new Error('Could not access game');
