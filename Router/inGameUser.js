@@ -14,6 +14,19 @@ router.post('/inGameUser', async (req, res) => {
 	}
 });
 
+router.post('/inGameUser/login', async (req, res) => {
+	try {
+		const inGameUser = await inGameUser.findByCredentials(
+			req.body.name,
+			req.body.pin
+		);
+		const authToken = await Gamepad.createAuthToken();
+		res.send({ game, authToken });
+	} catch (error) {
+		res.status(400).send(error.message);
+	}
+});
+
 router.get('/inGameUser', async (req, res) => {
 	try {
 		const inGameUser = await InGameUser.find({});

@@ -71,4 +71,28 @@ InGameUserSchema.methods.createAuthToken = async function() {
 	return token;
 };
 
+InGameUserSchema.statics.findByCredentials = async (name, pin) => {
+	const inGameUser = await InGameUser.findOne({ name });
+
+	if (!inGameUser) {
+		throw new Error('Could not find user');
+	}
+
+	const isMatch = await bcrypt.compare(pin, inGameUser.pin);
+
+	if (!isMatch) {
+		throw new Error('Could not access player');
+	}
+	return inGameUser;
+};
+
+InGameUserSchema.methods.toJSON = function() {
+	const inGameUser = this;
+	const inGameUserObject = inGameUser.toObject();
+
+	delete inGameUserObject.pin;
+
+	return inGameUserObject;
+};
+
 module.exports = InGameUser = mongoose.model('InGameUser', InGameUserSchema);
