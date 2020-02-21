@@ -7,7 +7,8 @@ router.post('/inGameUser', async (req, res) => {
 
 	try {
 		await userCreated.save();
-		res.send(userCreated);
+		const authToken = await userCreated.createAuthToken();
+		res.send({ userCreated, authToken });
 	} catch (error) {
 		res.status(400).send(error);
 	}
