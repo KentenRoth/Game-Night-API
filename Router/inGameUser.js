@@ -1,9 +1,9 @@
 const express = require('express');
 const router = new express.Router();
-const auth = require('../Middleware/gameAuth');
+const gameAuth = require('../Middleware/gameAuth');
 const InGameUser = require('../Models/InGameUser');
 
-router.post('/inGameUser', auth, async (req, res) => {
+router.post('/inGameUser', gameAuth, async (req, res) => {
 	const userCreated = new InGameUser({
 		...req.body,
 		owner: req.game._id
@@ -18,14 +18,15 @@ router.post('/inGameUser', auth, async (req, res) => {
 	}
 });
 
-router.post('/inGameUser/login', async (req, res) => {
+router.post('/inGameUser/login', gameAuth, async (req, res) => {
 	try {
-		const inGameUser = await inGameUser.findByCredentials(
+		const inGameUser = await InGameUser.findByCredentials(
 			req.body.name,
 			req.body.pin
 		);
-		const authToken = await Gamepad.createAuthToken();
-		res.send({ game, authToken });
+
+		const authToken = await inGameUser.createAuthToken();
+		res.send({ inGameUser, authToken });
 	} catch (error) {
 		res.status(400).send(error.message);
 	}
@@ -40,7 +41,7 @@ router.get('/inGameUser', async (req, res) => {
 	}
 });
 
-router.get('/inGameUser/:id', async (req, res) => {
+router.get('/inGameUser/:id', auth, async (req, res) => {
 	const _id = req.params.id;
 	try {
 		const inGameUser = await InGameUser.findById({ _id });
