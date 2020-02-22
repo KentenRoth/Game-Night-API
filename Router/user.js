@@ -28,7 +28,7 @@ router.post('/user/login', async (req, res) => {
 	}
 });
 
-router.get('/user/:id', async (req, res) => {
+router.get('/user/:id', auth, async (req, res) => {
 	const _id = req.params.id;
 
 	try {
@@ -42,7 +42,7 @@ router.get('/user/:id', async (req, res) => {
 	}
 });
 
-router.patch('/user/:id', async (req, res) => {
+router.patch('/user/:id', auth, async (req, res) => {
 	const _id = req.params.id;
 	const updates = Object.keys(req.body);
 	const allowedUpdates = [
