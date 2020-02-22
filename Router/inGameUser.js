@@ -1,9 +1,13 @@
 const express = require('express');
 const router = new express.Router();
+const auth = require('../Middleware/gameAuth');
 const InGameUser = require('../Models/InGameUser');
 
-router.post('/inGameUser', async (req, res) => {
-	const userCreated = new InGameUser(req.body);
+router.post('/inGameUser', auth, async (req, res) => {
+	const userCreated = new InGameUser({
+		...req.body,
+		owner: req.game._id
+	});
 
 	try {
 		await userCreated.save();

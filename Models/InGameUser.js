@@ -45,7 +45,12 @@ const InGameUserSchema = new Schema({
 				required: true
 			}
 		}
-	]
+	],
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'Game'
+	}
 });
 
 InGameUserSchema.pre('save', async function(next) {

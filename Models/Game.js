@@ -27,6 +27,12 @@ const GameSchema = new Schema({
 	]
 });
 
+GameSchema.virtual('inGameUser', {
+	ref: 'InGameUser',
+	localField: '_id',
+	foreignField: 'owner'
+});
+
 GameSchema.pre('save', async function(next) {
 	const game = this;
 
