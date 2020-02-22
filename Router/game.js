@@ -29,7 +29,7 @@ router.post('/game/login', async (req, res) => {
 	}
 });
 
-router.get('/game/:id', async (req, res) => {
+router.get('/game/:id', auth, async (req, res) => {
 	const _id = req.params.id;
 
 	try {
@@ -43,7 +43,7 @@ router.get('/game/:id', async (req, res) => {
 	}
 });
 
-router.delete('/game/:id', async (req, res) => {
+router.delete('/game/:id', auth, async (req, res) => {
 	const _id = req.params.id;
 	try {
 		const game = await Game.findByIdAndDelete(_id);
