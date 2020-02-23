@@ -1,6 +1,7 @@
 const express = require('express');
 const router = new express.Router();
 const gameAuth = require('../Middleware/gameAuth');
+const auth = require('../Middleware/inGameUserAuth');
 const InGameUser = require('../Models/InGameUser');
 
 router.post('/inGameUser', gameAuth, async (req, res) => {
