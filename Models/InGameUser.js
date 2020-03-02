@@ -28,11 +28,11 @@ const InGameUserSchema = new Schema({
 	},
 	money: {
 		type: Number,
-		required: true
+		default: 1500
 	},
 	netWorth: {
 		type: Number,
-		required: true
+		default: 1500
 	},
 	pin: {
 		type: String,
