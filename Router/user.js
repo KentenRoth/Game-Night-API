@@ -45,13 +45,7 @@ router.get('/user/:id', auth, async (req, res) => {
 router.patch('/user/:id', auth, async (req, res) => {
 	const _id = req.params.id;
 	const updates = Object.keys(req.body);
-	const allowedUpdates = [
-		'wins',
-		'eliminations',
-		'currentGames',
-		'gameName',
-		'gameToken'
-	];
+	const allowedUpdates = ['wins', 'eliminations', 'currentGames'];
 	const isValidUpdate = updates.every(update =>
 		allowedUpdates.includes(update)
 	);
@@ -62,7 +56,12 @@ router.patch('/user/:id', auth, async (req, res) => {
 
 	try {
 		const user = await User.findById(_id);
-		updates.forEach(update => (user[update] = req.body[update]));
+		updates.forEach(update => {
+			if (update === 'currentGames') {
+				return user.currentGames.push(req.body[update]);
+			}
+			user[update] = req.body[update];
+		});
 		await user.save();
 
 		if (!user) {
