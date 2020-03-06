@@ -47,6 +47,9 @@ const UserSchema = new Schema({
 		gameName: {
 			type: String
 		},
+		gameID: {
+			type: String
+		},
 		gameToken: {
 			type: String
 		}
