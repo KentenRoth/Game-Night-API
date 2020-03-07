@@ -33,10 +33,11 @@ router.post('/inGameUser/login', gameAuth, async (req, res) => {
 	}
 });
 
-router.get('/inGameUser', async (req, res) => {
+router.get('/inGameUser', gameAuth, async (req, res) => {
 	try {
-		const inGameUser = await InGameUser.find({});
-		res.send(inGameUser);
+		await req.game.populate({ path: 'inGameUser' }).execPopulate();
+
+		res.send(req.game.inGameUser);
 	} catch (error) {
 		res.status(500).send(error);
 	}
