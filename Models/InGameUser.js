@@ -9,7 +9,7 @@ const InGameUserSchema = new Schema({
 		required: true,
 		trim: true,
 		minlength: 2,
-		maxlength: 15
+		maxlength: 20
 	},
 	property: {
 		type: [],
